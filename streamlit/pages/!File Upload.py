@@ -346,7 +346,7 @@ if uploaded_file is not None:
 
     
 
-    st.write('Confusion matrix for SVM n\n', cm_svm)
+    st.write('Confusion matrix for SVC n\n', cm_svm)
 
     st.write('\nTrue Positives(TP) = ', cm_svm[0,0])
 
@@ -361,11 +361,11 @@ if uploaded_file is not None:
 
     sns.heatmap(cm_matrix_svm, annot=True, fmt='d', cmap='YlGnBu')
     plt.savefig('svmmap')
-    st.write("Confusion Matrix for Support Vector Machine (Diagram Form)")
+    st.write("Confusion Matrix for Support Vector Classifier (Diagram Form)")
     st.image("svmmap.png")
     plt.figure()
 
-    st.write("Support Vector Machine score : ")
+    st.write("Support Vector Classifier score : ")
     st.write("Precision Score = ", precision_score(y_test_svm, y_pred_test_svm))
     st.write("Recall Score = ", recall_score(y_test_svm, y_pred_test_svm))
     st.write("F1 Score = ", f1_score(y_test_svm, y_pred_test_svm))
@@ -445,10 +445,10 @@ if uploaded_file is not None:
                     bar.get_height()), ha='center', va='center',
                    size=10, xytext=(0, 8),
                    textcoords='offset points')
-    plt.title("Support Vector Machine(SVM)")
+    plt.title("Support Vector Classifier (SVC)")
     plt.show()
     plt.savefig('SVMresult.png')
-    st.write("Results for Support Vector Machine(SVM) with Dataset")
+    st.write("Results for Support Vector Classifier(SVC) with Dataset")
     st.image("SVMresult.png")
     plt.figure()
     
