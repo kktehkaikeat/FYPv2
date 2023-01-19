@@ -152,29 +152,35 @@ if uploaded_file is not None:
 
     df_prediction = df[["CatPortNumber",'CatModuleName',"CatTime","CatDatabase","CatDate","Label"]]
     st.write(df_prediction)
-    fig, ax = plt.subplots(figsize=(10,10))
-    sns.heatmap(df_prediction.corr(),square = True,ax=ax)
-    plt.savefig('heatmap')
-    st.write("Variable Correlation Heatmap")
+    # fig, ax = plt.subplots(figsize=(10,10))
+    # sns.heatmap(df_prediction.corr(),square = True,ax=ax)
+    # plt.savefig('heatmap')
+    # st.write("Variable Correlation Heatmap")
 
-    st.image("heatmap.png")
+    # st.image("heatmap.png")
     plt.figure()
 
     df_prediction_normal = df_prediction[df_prediction["Label"] == 0]
     df_prediction_abnormal = df_prediction[df_prediction["Label"] == 1]
     st.session_state["df_prediction_abnormal"] = df_prediction_abnormal
+    rows = len(df_prediction_abnormal.axes[0])
 
-    df_sample_prediction_normal = df_prediction_normal.sample(n=153)
+    df_sample_prediction_normal = df_prediction_normal.sample(n=rows)
+
 
     df_prediction_sample = pd.concat([df_sample_prediction_normal , df_prediction_abnormal])
+  
 
     #decision tree
     from sklearn.model_selection import train_test_split
     X_tree = df_prediction_sample.drop(['Label'], axis=1)
 
+
     y_tree = df_prediction_sample['Label']
 
+
     X_train_tree, X_test_tree, y_train_tree, y_test_tree = train_test_split(X_tree, y_tree, test_size = 0.2, random_state = 42)
+
 
     # instantiate the DecisionTreeClassifier model with criterion gini index
     from sklearn.tree import DecisionTreeClassifier
@@ -317,7 +323,7 @@ if uploaded_file is not None:
 
     X_train_svm, X_test_svm, y_train_svm, y_test_svm = train_test_split(X_svm, y_svm, test_size = 0.2, random_state = 42)
 
-        # import SVC classifier
+        # import Support Vector Machine classifier
     from sklearn.svm import SVC
 
 
@@ -346,7 +352,7 @@ if uploaded_file is not None:
 
     
 
-    st.write('Confusion matrix for SVC n\n', cm_svm)
+    st.write('Confusion matrix for Support Vector Machine n\n', cm_svm)
 
     st.write('\nTrue Positives(TP) = ', cm_svm[0,0])
 
@@ -361,7 +367,7 @@ if uploaded_file is not None:
 
     sns.heatmap(cm_matrix_svm, annot=True, fmt='d', cmap='YlGnBu')
     plt.savefig('svmmap')
-    st.write("Confusion Matrix for Support Vector Classifier (Diagram Form)")
+    st.write("Confusion Matrix for Support Vector Machine (Diagram Form)")
     st.image("svmmap.png")
     plt.figure()
 
@@ -445,10 +451,10 @@ if uploaded_file is not None:
                     bar.get_height()), ha='center', va='center',
                    size=10, xytext=(0, 8),
                    textcoords='offset points')
-    plt.title("Support Vector Classifier (SVC)")
+    plt.title("Support Vector Machine")
     plt.show()
     plt.savefig('SVMresult.png')
-    st.write("Results for Support Vector Classifier(SVC) with Dataset")
+    st.write("Results for Support Vector Machine with Dataset")
     st.image("SVMresult.png")
     plt.figure()
     
